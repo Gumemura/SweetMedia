@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 	void Start()
 	{
 		halfWidthOfTheScreen = Display.main.systemWidth / 2;
-		halfHeightOfTheScreen = Display.main.systemHeight / 2;
+		halfHeightOfTheScreen = Display.main.systemHeight / 3;
 	}
 
 	void Update()
