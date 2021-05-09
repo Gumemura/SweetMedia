@@ -6,10 +6,14 @@ public class Hero : MonoBehaviour
 { 
 	public float heroVelocity = 1;//movement velocity
 	public float jumpForce; //jump aceleration
+	public Sprite deathSprite;
+	public bool imDeath = false; //notify gamecontroler that hero has died
 
 	private Animator heroAnimator;
 	private SpriteRenderer heroSpriteRenderer;
 	private Rigidbody2D heroRB;
+	private Collider2D heroCl2D;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,9 +21,10 @@ public class Hero : MonoBehaviour
         heroAnimator = gameObject.GetComponent<Animator>();
         heroSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         heroRB = gameObject.GetComponent<Rigidbody2D>();
+        heroCl2D = gameObject.GetComponent<Collider2D>();
     }
 
-    public void turnOnOffMovementAnim(bool onOff){
+    public void turnOnOffMovementAnim(){
     	/*
     	activate and deactivate moviment animation
     	RECEIVES
@@ -55,4 +60,31 @@ public class Hero : MonoBehaviour
 			return false;
     	}
     }
+
+    public IEnumerator death(){
+    	heroRB.velocity = Vector3.zero;//makes him stop
+    	heroRB.constraints = RigidbodyConstraints2D.FreezeAll;//avoid movement
+    	heroAnimator.enabled = false; //avoid aniamtion transition
+    	heroSpriteRenderer.sprite = deathSprite;//force a sprite
+
+    	yield return new WaitForSeconds(2);//force the user to see the dead player
+    	deathFall();
+    	yield break;
+    }
+
+    private void deathFall(){
+    	heroRB.constraints = RigidbodyConstraints2D.FreezeRotation;//allow player to move but no to rotate, as usual
+    	heroCl2D.enabled = false;//turning player collider off so he can move frely
+    	heroRB.AddForce(new Vector2(0, 100));
+    }
+
+    public bool deathMessenger(){
+    	return imDeath;
+    }
+
+    void OnCollisionEnter2D(Collision2D other){
+     	if (other.transform.tag == "Enemy") {
+            imDeath = true;
+     	}
+ 	}
 }

@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
 
 	public float smooth = .2f;
 	public float zOffset = -10;
+    public float xAhead = 5;
 
     // void FixedUpdate()
     // {
@@ -18,7 +19,6 @@ public class CameraFollow : MonoBehaviour
     // }
 
     void LateUpdate(){
-    	transform.position = new Vector3(target.position.x, 0, zOffset);
+    	transform.position = new Vector3(target.position.x + xAhead, 0, zOffset);
     }
-
 }
