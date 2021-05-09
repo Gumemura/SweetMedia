@@ -9,23 +9,24 @@ public class TextPresentation : MonoBehaviour
 {
 	public TextMeshProUGUI textDisplay;
 
+	[Header("Text presentation")]
 	public float timeToDisplay = 3f;
 	public string[] displayTexts;
 
-
-	private bool changeScene = false;
+	[HideInInspector]
+	public bool textPresentationEnd = false;
 
     void Start(){
 		StartCoroutine(displayText(displayTexts));
     }
 
     void Update(){
-    	if(changeScene){
+    	if(textPresentationEnd){
 			SceneManager.LoadScene("Game");
     	}
     }
 
-    IEnumerator displayText(string[] texts){
+    public IEnumerator displayText(string[] texts){
     	Color tempColor = textDisplay.color;
     	tempColor.a = 0;
     	tempColor.r = 100;
@@ -47,7 +48,7 @@ public class TextPresentation : MonoBehaviour
 	    		yield return null;
 	    	}
     	}
-    	changeScene = true;
+    	textPresentationEnd = true;
     }
 }
 
