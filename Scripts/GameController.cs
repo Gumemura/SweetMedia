@@ -1,6 +1,8 @@
 ﻿/*
 KNOW BUGS
 	if the user press the same 'walk button' a second time, the player will move with double speed
+	sometimes the bool that activate the walk animation flips and the player moves when stoped
+	halfWidthOfTheScreen and halfHeightOfTheScreen doesnt work properly on mobile only on editor
 */
 
 using System.Collections;
@@ -28,7 +30,6 @@ public class GameController : MonoBehaviour
 		gp = new GlobalParameters();
 		halfWidthOfTheScreen = Display.main.systemWidth / 2;
 		halfHeightOfTheScreen = Display.main.systemHeight / 3;
-
 	}
 
 	void Update(){
