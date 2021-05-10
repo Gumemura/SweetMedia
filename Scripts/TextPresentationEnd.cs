@@ -68,7 +68,6 @@ public class TextPresentationEnd : TextPresentation
     	StartCoroutine(Upload());
     	//send to api
     	retryButton.SetActive(true);
-    	StartCoroutine(Upload());
     }
 
     public void retry(){

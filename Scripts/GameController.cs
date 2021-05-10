@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
 { 
 	public Hero hero; //the controlable hero
 	public Button retryButton;
+	public GameObject tutorial;
 
 	private float halfWidthOfTheScreen; //x coordinate of half of the screen
 	private float halfHeightOfTheScreen; //x coordinate of half of the screen
@@ -37,6 +38,7 @@ public class GameController : MonoBehaviour
 			foreach(Touch touch in Input.touches){
 				switch (touch.phase){
 					case TouchPhase.Began:
+						tutorial.SetActive(false);
 						//jump
 						if(touch.position.y >= halfHeightOfTheScreen && !isJumping){
 							hero.jump();
