@@ -4,12 +4,13 @@ KNOW BUGS
 	sometimes the bool that activate the walk animation flips and the player moves when stoped
 	halfWidthOfTheScreen and halfHeightOfTheScreen doesnt work properly on mobile only on editor
 */
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro; 
+
 
 public class GameController : MonoBehaviour
 { 
@@ -28,6 +29,13 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
+		#if !UNITY_EDITOR
+			if(PlayerPrefs.GetInt("firstPlay") != 1){
+				tutorial.SetActive(true);
+			}
+			PlayerPrefs.SetInt("firstPlay", 1);
+		#endif
+
 		gp = new GlobalParameters();
 		halfWidthOfTheScreen = Display.main.systemWidth / 2;
 		halfHeightOfTheScreen = Display.main.systemHeight / 3;
