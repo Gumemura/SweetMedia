@@ -285,14 +285,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDisplay: {fileID: 219445351}
-  timeToDisplay: 4
+  timeToDisplay: 2
   displayTexts:
   - Hell0
   - We 4re willing t0 kn0w y0u
   - But, 4s t0u m4y h4\/e n0ticed, s0me letter h4ve been missing
   - C4n y0u help us t0 retrie\/e them?
-  - Gre4t! I knew y0u w0uld help us
-  - G00d luck!
+  - Gre4t! I knew y0u w0uld help us. G00d luck!
+  textPresentationEnd: 0
 --- !u!4 &312632080
 Transform:
   m_ObjectHideFlags: 0
