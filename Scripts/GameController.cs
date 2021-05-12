@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
-		#if !UNITY_EDITOR
+		#if !UNITY_EDITOR//makes tutorial be displayed only at the first time its played
 			if(PlayerPrefs.GetInt("firstPlay") != 1){
 				tutorial.SetActive(true);
 			}
