@@ -43,37 +43,58 @@ public class GameController : MonoBehaviour
 
 	void Update(){
 		if(canPlay){
-			foreach(Touch touch in Input.touches){
-				switch (touch.phase){
-					case TouchPhase.Began:
-						tutorial.SetActive(false);
-						//jump
-						if(touch.position.y >= halfHeightOfTheScreen && !isJumping){
-							hero.jump();
-							isJumping = true;
-						}else if(touch.position.y < halfHeightOfTheScreen){
-							hero.turnOnOffMovementAnim();
-						}
-						break;
+			#if UNITY_ANDROID
+				foreach(Touch touch in Input.touches){
+					switch (touch.phase){
+						case TouchPhase.Began:
+							tutorial.SetActive(false);
+							//jump
+							if(touch.position.y >= halfHeightOfTheScreen && !isJumping){
+								hero.jump();
+								isJumping = true;
+							}else if(touch.position.y < halfHeightOfTheScreen){
+								hero.turnOnOffMovementAnim();
+							}
+							break;
 
-					case TouchPhase.Ended:
-						if(touch.position.y <= halfHeightOfTheScreen){
-							hero.turnOnOffMovementAnim();
-						}
-						break;   
-				}
+						case TouchPhase.Ended:
+							if(touch.position.y <= halfHeightOfTheScreen){
+								hero.turnOnOffMovementAnim();
+							}
+							break;   
+					}
 
-				//movement
-				if(touch.position.y < halfHeightOfTheScreen){
-					if(touch.position.x >= halfWidthOfTheScreen){
-						hero.move(1);//moving right
-					}else{
-						hero.move(-1);//moving left
+					//movement
+					if(touch.position.y < halfHeightOfTheScreen){
+						if(touch.position.x >= halfWidthOfTheScreen){
+							hero.move(1);//moving right
+						}else{
+							hero.move(-1);//moving left
+						}
 					}
 				}
-			}
-			//this is the variable responsible for only one time jumping and not allowing jump when falling
-			isJumping = hero.triggerJumpAnim();
+				//this is the variable responsible for only one time jumping and not allowing jump when falling
+				isJumping = hero.triggerJumpAnim();
+			#else
+				if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
+					hero.turnOnOffMovementAnim();
+				}
+
+				if(Input.GetKey(KeyCode.LeftArrow)){
+					hero.move(-1);
+				}
+				if(Input.GetKey(KeyCode.RightArrow)){
+					hero.move(1);
+				}
+
+				if(Input.GetKeyDown(KeyCode.UpArrow)){
+					if(!isJumping){
+						hero.jump();
+						isJumping = true;
+					}
+				}
+				isJumping = hero.triggerJumpAnim();
+			#endif
 		}
 
 		//always checking if its gameover
@@ -84,6 +105,11 @@ public class GameController : MonoBehaviour
 		if(hero.transform.position.y < gp.fallDeath){ //death by fall
 			canPlay = false;
 			retryButton.gameObject.SetActive(true);
+			#if !UNITY_ANDROID
+			if (Input.anyKey){
+				reloadGameScene();
+			}
+			#endif
 		}
 
 		if(hero.deathMessenger()){ //death by contact with monster
